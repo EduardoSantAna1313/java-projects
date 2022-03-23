@@ -1,0 +1,1 @@
+Teste com threads para realizar o calculo de parcelas diretamente no banco de dados.

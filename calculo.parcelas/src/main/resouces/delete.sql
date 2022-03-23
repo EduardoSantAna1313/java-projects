@@ -1,0 +1,1 @@
+DELETE FROM parcela WHERE 1 = 1 

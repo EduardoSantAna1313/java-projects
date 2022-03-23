@@ -1,0 +1,1 @@
+INSERT INTO parcela (id, pedidoid, valor, parcela) VALUES(?, 0, 1000.0, 1);
