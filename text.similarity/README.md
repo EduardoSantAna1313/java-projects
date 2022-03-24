@@ -1,0 +1,1 @@
+Realiza comparação entre strings para encontrar a similaridade entre elas.
