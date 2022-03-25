@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration debug="true"
+	xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+	<!-- APPENDERS -->
+	<appender name="main"
+		class="org.apache.log4j.RollingFileAppender">
+		<param name="file" value="log/main.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="2" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[Time:%d{yyyy-MM-dd HH:mm:ss}][Level:%p]%m%n" />
+		</layout>
+	</appender>
+
+	<appender name="process"
+		class="org.apache.log4j.RollingFileAppender">
+		<param name="file" value="log/process.log" />
+		<param name="MaxFileSize" value="1024KB" />
+		<param name="MaxBackupIndex" value="2" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[Time:%d][Thread:%t][Level:%p]%m%n" />
+		</layout>
+	</appender>
+
+	<!-- CATEGORIES -->
+	<!-- Irá loggar Info + error -->
+	<category name="br.com.edu.logger.conf" additivity="false">
+		<priority value="INFO" />
+		<appender-ref ref="main" />
+	</category>
+
+	<!-- Apenas irá loggar os logs de ERRO do pacote process -->
+	<category name="br.com.edu.logger.conf.process"
+		additivity="false">
+		<priority value="ERROR" />
+		<appender-ref ref="process" />
+	</category>
+
+	<root>
+		<level value="ERROR" />
+		<appender-ref ref="main" />
+	</root>
+
+</log4j:configuration>
