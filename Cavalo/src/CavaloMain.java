@@ -8,7 +8,7 @@
 public class CavaloMain {
 
 	public static void main(final String[] args) {
-		new Cavalo(0, 0).start();
+		new Cavalo(3, 4).start();
 	}
 
 }
