@@ -1,0 +1,1 @@
+Projeto com AWS Rekognition usando custom labels e model pronto.
