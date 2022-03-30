@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import br.com.edu.junit.teste.java.MyBusiness;
+import br.com.edu.junit.teste.java.Business;
 
 /**
  * Test Case para Divisao.
@@ -21,20 +21,20 @@ public class TestCaseDivisao {
 	// define timeout máximo
 	@Test(timeout = 1)
 	public void validaTimeout() throws Exception {
-		final double div = MyBusiness.dividir(10, 1);
+		final double div = Business.dividir(10, 1);
 		assertEquals("", 10, div, 0.1);
 	}
 
 	// define exception esperada
 	@Test(expected = ArithmeticException.class)
 	public void validaException() throws Exception {
-		final double div = MyBusiness.dividir(10, 0);
+		final double div = Business.dividir(10, 0);
 		assertEquals("", 10, div, 0.1);
 	}
 
 	@Test
 	public void validaDivisao() throws Exception {
-		final double div = MyBusiness.dividir(10, 1);
+		final double div = Business.dividir(10, 1);
 		assertEquals("", 10, div, TOLERANCIA);
 	}
 

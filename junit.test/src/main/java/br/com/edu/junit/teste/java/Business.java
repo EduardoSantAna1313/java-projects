@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Business layer de teste.
+ *
  * @author Eduardo
  */
-public class MyBusiness {
+public class Business {
 
 	private List<String> list;
 
 	/**
 	 * Create a new instance of Business
 	 */
-	public MyBusiness() {
+	public Business() {
 		super();
 
 		getList().add("bla");

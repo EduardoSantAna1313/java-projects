@@ -8,18 +8,18 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.edu.junit.teste.java.MyBusiness;
+import br.com.edu.junit.teste.java.Business;
 
 /**
  * @author Eduardo
  */
 public class TestCaseBusiness {
 
-	private MyBusiness b;
+	private Business b;
 
 	@Before
 	public void before() {
-		b = new MyBusiness();
+		b = new Business();
 	}
 
 	@Test(timeout = 1)
