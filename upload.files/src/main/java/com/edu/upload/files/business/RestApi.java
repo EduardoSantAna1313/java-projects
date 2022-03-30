@@ -80,6 +80,12 @@ public class RestApi {
 				throw new IOException("Files não upado!");
 			}
 
+			if (contentDisposition.length == 0 || contentDisposition[0].getElements() == null
+					|| contentDisposition[0].getElements()[0].getParameterCount() == 0) {
+
+				throw new IOException(new String(pageEntity.getContent().readAllBytes()));
+			}
+
 			final String fileName = contentDisposition[0].getElements()[0].getParameter(0).getValue();
 
 			final var is = pageEntity.getContent();

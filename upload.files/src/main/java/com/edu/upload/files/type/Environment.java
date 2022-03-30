@@ -1,6 +1,8 @@
 package com.edu.upload.files.type;
 
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -64,14 +66,22 @@ public class Environment {
 	}
 
 	public static Environment load(final String key) {
-		final Gson gson = new Gson();
 
-		final Type type = new TypeToken<>() {
-		}.getType();
+		try {
+			final Gson gson = new Gson();
 
-		final List<Environment> list = gson.fromJson("", type);
+			final Type type = new TypeToken<List<Environment>>() {
+			}.getType();
 
-		return list.stream().filter(e -> e.getKey().equals(key)).findFirst().orElse(null);
+			final String json = Files.readString(Path.of("resources/environments.json"));
+
+			final List<Environment> list = gson.fromJson(json, type);
+
+			return list.stream().filter(e -> e.getKey().trim().equals(key)).findFirst().orElse(null);
+		} catch (final Exception error) {
+			return null;
+		}
+
 	}
 
 }
