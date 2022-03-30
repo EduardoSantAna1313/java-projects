@@ -34,6 +34,10 @@ public class ReadWriteLocks {
 		final Runnable runReading = () -> {
 
 			while (true) {
+
+				// Utilizando o método tryLock, nao ficamos preso, assim o tryLock retorna false
+				// caso o objeto esteja bloqueado para escrita e podemos seguir para a prox
+				// operação
 				System.out.println(db.getObjectTryLock());
 
 				try {
@@ -44,6 +48,9 @@ public class ReadWriteLocks {
 			}
 
 		};
+
+		// se a thread de escrita estiver acessando o objeto, a thread de leitura irá
+		// aguardar até a thread de escritar liberar o objeto.
 		final Thread t1 = new Thread(runWriting);
 		final Thread t2 = new Thread(runReading);
 
