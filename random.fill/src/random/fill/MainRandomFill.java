@@ -1,5 +1,6 @@
 package random.fill;
 
+import random.fill.populator.RandomPopulator;
 import random.fill.test.Obj;
 
 /**
@@ -9,7 +10,7 @@ import random.fill.test.Obj;
  */
 public class MainRandomFill {
 
-	public static void main(final String[] args) {
+	public static void main(final String[] args) throws ClassNotFoundException {
 
 		final Obj obj = new Obj();
 
