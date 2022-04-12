@@ -15,7 +15,7 @@ import com.edu.upload.files.util.FileUtils;
  */
 public class MainUploadThreads {
 
-	private static final File FILE = new File("resources/teste0.pdf");
+	private static final File FILE = new File("resources/teste1.pdf");
 
 	public static void main(final String[] args) throws Exception {
 
@@ -23,7 +23,7 @@ public class MainUploadThreads {
 
 		final var id = new AtomicInteger(0);
 
-		for (int i = 0; i < 500; i++) {
+		for (int i = 0; i < 10; i++) {
 			service.submit(() -> call(id.incrementAndGet()));
 		}
 

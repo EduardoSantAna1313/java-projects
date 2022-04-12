@@ -66,6 +66,10 @@ public class MainTestAllBucketSave {
 
 				final var obj = S3Service.getInstance().getObject(bucket, key);
 
+				if (obj == null) {
+					continue;
+				}
+
 				// show image with labels
 				final var fileName = ImageUtil.save(OUTPUT_DIR, obj, labels, COLORS);
 

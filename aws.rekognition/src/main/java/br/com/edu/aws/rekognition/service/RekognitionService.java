@@ -109,6 +109,9 @@ public final class RekognitionService implements AutoCloseable {
 		client.stopProjectVersion(request);
 	}
 
+	public void isRunning() {
+	}
+
 	@Override
 	public void close() {
 		client.close();

@@ -26,7 +26,13 @@ public class S3Service {
 	}
 
 	public S3Object getObject(final String bucket, final String key) {
-		return client.getObject(bucket, key);
+
+		try {
+			return client.getObject(bucket, key);
+		} catch (final Exception e) {
+			return null;
+		}
+
 	}
 
 	public List<S3ObjectSummary> listObjects(final String bucket, final String prefix) {
