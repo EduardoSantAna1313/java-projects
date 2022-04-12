@@ -14,6 +14,7 @@ public class MainAsyncExtract {
 	public static void main(final String[] args) throws Exception {
 
 		final var bucket = TestUtil.getTestProperty("bucket");
+
 		final var key = TestUtil.getTestProperty("key");
 
 		final var service = AsyncOcrService.getInstance();

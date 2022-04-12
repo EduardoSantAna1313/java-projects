@@ -62,11 +62,13 @@ public class CredentialsService {
 
 					@Override
 					public String getAWSSecretKey() {
+						System.out.println(properties.getProperty("secret_key"));
 						return properties.getProperty("secret_key");
 					}
 
 					@Override
 					public String getAWSAccessKeyId() {
+						System.out.println(properties.getProperty("access_key_id"));
 						return properties.getProperty("access_key_id");
 					}
 

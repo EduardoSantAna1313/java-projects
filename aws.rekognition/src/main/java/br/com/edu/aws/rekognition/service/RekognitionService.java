@@ -95,7 +95,7 @@ public final class RekognitionService implements AutoCloseable {
 	 */
 	public void startModel() {
 		final StartProjectVersionRequest request = StartProjectVersionRequest.builder().projectVersionArn(projectArn)
-				.build();
+				.minInferenceUnits(1).build();
 
 		client.startProjectVersion(request);
 	}

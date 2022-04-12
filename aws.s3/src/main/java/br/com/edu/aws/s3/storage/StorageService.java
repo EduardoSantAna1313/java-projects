@@ -141,6 +141,7 @@ public class StorageService {
 
 		if (client == null) {
 			final CredentialsService service = CredentialsService.getInstance();
+
 			client = service.loadS3Service();
 		}
 

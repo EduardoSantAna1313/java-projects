@@ -13,6 +13,8 @@ public class MainListObjects {
 	public static void main(final String[] args) {
 		final var bucket = StorageUtil.getTestProperty("bucket_name");
 
+		System.out.println(bucket);
+
 		StorageService.getInstance().listObjects(bucket).forEach(System.out::println);
 	}
 

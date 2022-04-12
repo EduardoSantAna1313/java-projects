@@ -1,20 +1,28 @@
 package br.com.edu.aws.rekognition;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
+
+import com.google.gson.Gson;
 
 import br.com.edu.aws.rekognition.service.RekognitionService;
 import br.com.edu.aws.rekognition.service.s3.S3Service;
 import br.com.edu.aws.rekognition.util.ImageUtil;
 import br.com.edu.aws.rekognition.util.TestUtil;
+import software.amazon.awssdk.services.rekognition.model.CustomLabel;
 
 /**
- * Teste individual de imagens. Extração de labels customizadas do Rekognition.
+ * Teste de extração de labels customizadas do Rekognition de um bucket inteiro
+ * e filtro por prefix e salvando resultado.
  *
  * @author Eduardo
  */
-public class MainTestAllBucket {
+public class MainTestAllBucketSave {
 
 	private static final Map<String, Color> COLORS = Map.of(
 			// condicao
@@ -23,6 +31,10 @@ public class MainTestAllBucket {
 			"data", Color.GREEN,
 			// numero
 			"numero", Color.RED);
+
+	private static final Path OUTPUT_DIR = Path.of("/home/edusilva/Desktop/rekognition/tests_result/");
+
+	private static final Path OUTPUT_RESULT = Path.of("/home/edusilva/Desktop/rekognition/tests_result/json");
 
 	public static void main(final String[] args) {
 
@@ -55,26 +67,37 @@ public class MainTestAllBucket {
 				final var obj = S3Service.getInstance().getObject(bucket, key);
 
 				// show image with labels
-				ImageUtil.show(obj, labels, COLORS);
+				final var fileName = ImageUtil.save(OUTPUT_DIR, obj, labels, COLORS);
 
-				next();
+				System.out.println("Saved " + fileName);
+
+				save(OUTPUT_RESULT, obj.getKey(), labels);
 
 			}
 
 		}
 
-		System.exit(0);
-
 	}
 
-	private static void next() {
+	private static void save(final Path outputResult, final String key, final List<CustomLabel> labels) {
+		final Gson gson = new Gson();
 
-		System.out.println("Digite para continuar...");
+		final var json = gson.toJson(labels);
 
 		try {
-			final Scanner in = new Scanner(System.in);
-			in.nextLine();
-		} catch (final Exception error) {
+			String string = Path.of(key).getFileName().toString();
+
+			string = string.substring(0, string.lastIndexOf('.'));
+			string += ".json";
+
+			final Path out = Path.of(outputResult.toString(), string);
+
+			if (!out.getParent().toFile().exists()) {
+				out.getParent().toFile().mkdirs();
+			}
+
+			Files.write(out, json.getBytes(), StandardOpenOption.CREATE);
+		} catch (final IOException error) {
 			error.printStackTrace();
 		}
 
