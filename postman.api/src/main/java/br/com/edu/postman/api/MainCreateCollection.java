@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import br.com.edu.postman.api.service.PostmanService;
 import br.com.edu.postman.api.service.PostmanServiceBuilder;
-import br.com.edu.postman.api.service.dto.Collection;
-import br.com.edu.postman.api.service.dto.CollectionDetail;
+import br.com.edu.postman.api.service.dto.collection.Collection;
+import br.com.edu.postman.api.service.dto.collection.CollectionDetail;
 import br.com.edu.postman.api.util.PropertiesUtil;
 
 /**

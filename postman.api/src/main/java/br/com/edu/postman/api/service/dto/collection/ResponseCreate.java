@@ -3,8 +3,6 @@
  */
 package br.com.edu.postman.api.service.dto.collection;
 
-import br.com.edu.postman.api.service.dto.Collection;
-
 /**
  * Class to ResponseCreate.
  *

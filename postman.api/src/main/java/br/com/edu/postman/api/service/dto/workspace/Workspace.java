@@ -6,7 +6,7 @@ package br.com.edu.postman.api.service.dto.workspace;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.com.edu.postman.api.service.dto.Collection;
+import br.com.edu.postman.api.service.dto.collection.Collection;
 
 /**
  * Class to .

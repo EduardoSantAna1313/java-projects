@@ -1,4 +1,4 @@
-package br.com.edu.postman.api.service.dto;
+package br.com.edu.postman.api.service.dto.collection;
 
 /**
  * @author Eduardo

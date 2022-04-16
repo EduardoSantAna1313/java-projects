@@ -12,7 +12,7 @@ import br.com.edu.postman.api.util.PropertiesUtil;
  *
  * @author Eduardo
  */
-public class ListWorksapces {
+public class ListWorkspaces {
 
 	public static void main(final String[] args) {
 		final var apiKey = PropertiesUtil.getPropery("api_key");

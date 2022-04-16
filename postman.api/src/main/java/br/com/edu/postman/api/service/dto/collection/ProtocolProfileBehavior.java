@@ -1,4 +1,4 @@
-package br.com.edu.postman.api.service.dto;
+package br.com.edu.postman.api.service.dto.collection;
 
 import com.google.gson.annotations.SerializedName;
 

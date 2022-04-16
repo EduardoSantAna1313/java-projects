@@ -9,9 +9,9 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
-import br.com.edu.postman.api.service.dto.Collection;
-import br.com.edu.postman.api.service.dto.CollectionDetail;
-import br.com.edu.postman.api.service.dto.CollectionResponse;
+import br.com.edu.postman.api.service.dto.collection.Collection;
+import br.com.edu.postman.api.service.dto.collection.CollectionDetail;
+import br.com.edu.postman.api.service.dto.collection.CollectionResponse;
 import br.com.edu.postman.api.service.dto.collection.ResponseCreate;
 import br.com.edu.postman.api.service.dto.workspace.ResponseDetailW;
 import br.com.edu.postman.api.service.dto.workspace.ResponseListW;
