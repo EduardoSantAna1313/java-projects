@@ -44,6 +44,11 @@ class PostmanConnection {
 	private static final String METHOD_POST = "POST";
 
 	/**
+	 * String - METHOD_DELETE.
+	 */
+	private static final String METHOD_DELETE = "DELETE";
+
+	/**
 	 * New instance of PostmanConnection
 	 */
 	private PostmanConnection() {
@@ -97,6 +102,14 @@ class PostmanConnection {
 			outputStream.write(content.getBytes());
 			outputStream.flush();
 		}
+
+		return readResponse(conn);
+	}
+
+	public static String delete(final String suffix, final String key) throws IOException {
+		final HttpURLConnection conn = createConnection(suffix, key);
+		conn.setRequestMethod(METHOD_DELETE);
+		conn.setDoOutput(true);
 
 		return readResponse(conn);
 	}

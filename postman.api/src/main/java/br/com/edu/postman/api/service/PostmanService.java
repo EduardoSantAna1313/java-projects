@@ -162,4 +162,21 @@ public class PostmanService {
 
 	}
 
+	/**
+	 * Delete a collection.
+	 *
+	 * @param uid
+	 *
+	 * @return
+	 *
+	 * @throws IOException
+	 */
+	public Collection delete(final String uid) throws IOException {
+
+		final String json = PostmanConnection.delete("collections/" + uid, apiKey);
+
+		return gson.fromJson(json, ResponseCreate.class).getCollection();
+
+	}
+
 }
