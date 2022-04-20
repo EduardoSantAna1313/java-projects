@@ -28,7 +28,6 @@ public class UserRepoFileSystemAdapter implements UserRepository {
 
 	@Override
 	public void save(final User user) {
-
 		final File file = Path.of(SAVE_FOLDER, user.getName() + ".ser").toFile();
 
 		if (!file.getParentFile().exists()) {
