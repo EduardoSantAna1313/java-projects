@@ -131,10 +131,10 @@ public class StorageService {
 		return result;
 	}
 
-	public void listObjects(final String bucket, final String prefix) {
+	public List<S3ObjectSummary> listObjects(final String bucket, final String prefix) {
 		final AmazonS3Client s3Client = getClient();
 
-		s3Client.listObjects(bucket, prefix);
+		return s3Client.listObjects(bucket, prefix).getObjectSummaries();
 	}
 
 	private AmazonS3Client getClient() {

@@ -17,6 +17,8 @@ import br.com.edu.aws.s3.storage.StorageObject;
  */
 public class StorageUtil {
 
+	private static Properties props;
+
 	/**
 	 * New instance of StorageUtil
 	 */
@@ -31,15 +33,20 @@ public class StorageUtil {
 	}
 
 	public static Properties load(final String fileName) {
-		final Properties prop = new Properties();
+
+		if (props != null) {
+			return props;
+		}
+
+		props = new Properties();
 
 		try (var is = new FileInputStream(Path.of("src/main/resources").resolve(fileName).toFile())) {
-			prop.load(is);
+			props.load(is);
 		} catch (final IOException error) {
 			// NA
 		}
 
-		return prop;
+		return props;
 	}
 
 	public static Path save(final StorageObject obj, final Path dir) throws IOException {

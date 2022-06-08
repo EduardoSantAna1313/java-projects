@@ -31,11 +31,11 @@ public class AsyncOcrService {
 
 	private AsyncOcrService() {
 
-		final EndpointConfiguration endpoint = new EndpointConfiguration("https://textract.us-east-1.amazonaws.com",
-				"us-east-1");
+		final EndpointConfiguration endpoint = new EndpointConfiguration("https://textract.sa-east-1.amazonaws.com",
+				"sa-east-1");
 
 		client = AmazonTextractClientBuilder.standard().withEndpointConfiguration(endpoint)
-				.withCredentials(TextractCredentials.getInstance().getProvider()).build();
+				.withCredentials(TextractCredentials.getInstance().getProvider()).withRegion("sa-east-1").build();
 	}
 
 	public static AsyncOcrService getInstance() {

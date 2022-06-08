@@ -13,6 +13,17 @@ public class MainStartModel {
 
 		try (final var service = RekognitionService.getInstance()) {
 			service.startModel();
+
+			while (!service.started()) {
+
+				try {
+					Thread.sleep(15_000);
+				} catch (final InterruptedException error) {
+					error.printStackTrace();
+				}
+
+			}
+
 		}
 
 	}

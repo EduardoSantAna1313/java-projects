@@ -1,0 +1,6 @@
+/target/
+*.zip
+.classpath
+/.settings/
+*.class
+.project

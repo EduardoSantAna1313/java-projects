@@ -8,9 +8,12 @@ import java.util.Properties;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.rekognition.RekognitionClient;
 import software.amazon.awssdk.services.rekognition.model.CustomLabel;
+import software.amazon.awssdk.services.rekognition.model.DescribeProjectVersionsRequest;
 import software.amazon.awssdk.services.rekognition.model.DetectCustomLabelsRequest;
 import software.amazon.awssdk.services.rekognition.model.DetectCustomLabelsResponse;
 import software.amazon.awssdk.services.rekognition.model.Image;
+import software.amazon.awssdk.services.rekognition.model.ListDatasetEntriesRequest;
+import software.amazon.awssdk.services.rekognition.model.ProjectVersionStatus;
 import software.amazon.awssdk.services.rekognition.model.RekognitionException;
 import software.amazon.awssdk.services.rekognition.model.S3Object;
 import software.amazon.awssdk.services.rekognition.model.StartProjectVersionRequest;
@@ -32,6 +35,10 @@ public final class RekognitionService implements AutoCloseable {
 
 	private String projectArn;
 
+	private String modelArn;
+
+	private String versionName;
+
 	private String region;
 
 	private RekognitionClient client;
@@ -44,13 +51,16 @@ public final class RekognitionService implements AutoCloseable {
 		try {
 			props.load(new FileInputStream("src/main/resources/test.properties"));
 
-			projectArn = props.getProperty("model_arn");
+			modelArn = props.getProperty("model_arn");
+			projectArn = props.getProperty("project_arn");
+			versionName = props.getProperty("version_name");
 			region = props.getProperty("region");
 
 			client = RekognitionClient.builder().credentialsProvider(RekognitionCredentials.getInstance())
 					.region(Region.of(region)).build();
 		} catch (final Exception e) {
 			// NA
+			e.printStackTrace();
 		}
 
 	}
@@ -94,22 +104,73 @@ public final class RekognitionService implements AutoCloseable {
 	 * Start the model.
 	 */
 	public void startModel() {
-		final StartProjectVersionRequest request = StartProjectVersionRequest.builder().projectVersionArn(projectArn)
+
+		if (started()) {
+			System.out.println("The model has already been started!");
+			return;
+		}
+
+		System.out.println("Starting the model...");
+
+		final StartProjectVersionRequest request = StartProjectVersionRequest.builder().projectVersionArn(modelArn)
 				.minInferenceUnits(1).build();
 
-		client.startProjectVersion(request);
+		final var response = client.startProjectVersion(request);
+
+		System.out.println("Status: " + response.status());
+
+	}
+
+	public boolean started() {
+
+		final var resp = client.describeProjectVersions(
+				DescribeProjectVersionsRequest.builder().projectArn(projectArn).versionNames(versionName).build());
+
+		if (resp.hasProjectVersionDescriptions()) {
+
+			final var desc = resp.projectVersionDescriptions();
+
+			final var status = desc.get(0).status();
+
+			System.out.println("Status: " + status);
+
+			return status.equals(ProjectVersionStatus.RUNNING);
+		}
+
+		return false;
+	}
+
+	public boolean stoped() {
+
+		final var resp = client.describeProjectVersions(
+				DescribeProjectVersionsRequest.builder().projectArn(projectArn).versionNames(versionName).build());
+
+		if (resp.hasProjectVersionDescriptions()) {
+
+			final var desc = resp.projectVersionDescriptions();
+
+			final var status = desc.get(0).status();
+
+			System.out.println("Status: " + status);
+
+			return status.equals(ProjectVersionStatus.STOPPED);
+		}
+
+		return false;
+	}
+
+	public void collection() {
+		System.out.println(client.listDatasetEntries(
+				ListDatasetEntriesRequest.builder().datasetArn(projectArn).containsLabels("_01").build()));
 	}
 
 	/**
 	 * Stop the model
 	 */
 	public void stopModel() {
-		final StopProjectVersionRequest request = StopProjectVersionRequest.builder().projectVersionArn(projectArn)
+		final StopProjectVersionRequest request = StopProjectVersionRequest.builder().projectVersionArn(modelArn)
 				.build();
 		client.stopProjectVersion(request);
-	}
-
-	public void isRunning() {
 	}
 
 	@Override

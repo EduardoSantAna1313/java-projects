@@ -14,6 +14,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<aws.sdk.version>1.12.187</aws.sdk.version>
+		<software.amazon.awssdk.version>2.17.204</software.amazon.awssdk.version>
 		<pdfbox.version>2.0.8</pdfbox.version>
 	</properties>
 
@@ -22,12 +23,13 @@
 			<dependency>
 				<groupId>software.amazon.awssdk</groupId>
 				<artifactId>bom</artifactId>
-				<version>2.17.102</version>
+				<version>${software.amazon.awssdk.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
 	<dependencies>
 
 		<dependency>
@@ -67,12 +69,19 @@
 			<artifactId>pdfbox</artifactId>
 			<version>${pdfbox.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.pdfbox</groupId>
 			<artifactId>pdfbox-tools</artifactId>
 			<version>${pdfbox.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.24</version>
+			<scope>provided</scope>
+		</dependency>
 
 	</dependencies>
 </project>
