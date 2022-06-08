@@ -7,13 +7,13 @@ import java.util.Locale;
 
 public class Operacao {
 
-	private LocalDate data;
+	private final LocalDate data;
 
 	private int qtde;
 
 	private BigDecimal valor;
 
-	public Operacao(LocalDate data, int qtde, BigDecimal valor) {
+	public Operacao(final LocalDate data, final int qtde, final BigDecimal valor) {
 		super();
 		this.data = data;
 		this.qtde = qtde;
@@ -24,7 +24,7 @@ public class Operacao {
 		return qtde;
 	}
 
-	public void setQtde(int qtde) {
+	public void setQtde(final int qtde) {
 		this.qtde = qtde;
 	}
 
@@ -32,8 +32,12 @@ public class Operacao {
 		return valor;
 	}
 
-	public void setValor(BigDecimal valor) {
+	public void setValor(final BigDecimal valor) {
 		this.valor = valor;
+	}
+
+	public LocalDate getData() {
+		return data;
 	}
 
 	@Override

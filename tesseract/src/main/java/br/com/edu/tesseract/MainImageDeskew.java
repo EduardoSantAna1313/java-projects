@@ -12,13 +12,15 @@ import br.com.edu.tesseract.service.TessService;
 public class MainImageDeskew {
 
 	public static void main(final String[] args) throws Exception {
-		final TessService business = new TessService(Path.of("src/main/resources/notas/nota04.pdf"))
+		final TessService business = new TessService(Path.of("src/main/resources/notas/nota06.pdf"))
 				// exibe imagem no form
 				.showForm(true)
 				// corrige angulação
-				.deskew(true)
+				.deskew(false)
+				// idioma do modelo
+				// .languageEng()
 				// apply threshold
-				.applyThreshold(false);
+				.applyThreshold(true);
 
 		System.out.println(business.doOcr());
 	}

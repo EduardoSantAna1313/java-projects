@@ -3,11 +3,17 @@ package br.com.edu.java.proxy;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
-public class MainProxy {
+interface MyInterface {
+
+	int doBla();
+
+}
+
+public class MainSimpleProxy {
 
 	public static void main(final String[] args) {
 
-		final MyInterface proxyInstance = (MyInterface) Proxy.newProxyInstance(MainProxy.class.getClassLoader(),
+		final MyInterface proxyInstance = (MyInterface) Proxy.newProxyInstance(MainSimpleProxy.class.getClassLoader(),
 				new Class[] {
 					MyInterface.class
 				}, handler());

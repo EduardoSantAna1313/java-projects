@@ -1,0 +1,1 @@
+Exemplos usando java.lang.reflect.Proxy.

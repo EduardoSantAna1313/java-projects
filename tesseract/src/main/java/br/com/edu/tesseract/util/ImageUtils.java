@@ -60,9 +60,10 @@ public class ImageUtils {
 
 		frame.setTitle("Frame");
 		frame.setLayout(new GridLayout(1, cols));
-		frame.setSize(900, 540);
+		frame.setSize(900, 900);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
 
 		final ImageIcon icon = new ImageIcon(resize(pImage, 350, 520));
 		final JLabel lbl = new JLabel();

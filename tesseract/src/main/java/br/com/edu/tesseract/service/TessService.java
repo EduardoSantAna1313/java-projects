@@ -29,6 +29,8 @@ public class TessService {
 
 	public static final String LANGUAGE_POR = "por";
 
+	public static final String LANGUAGE_ENG = "eng";
+
 	private static final float IMAGE_RESOLUTION_DPI = 300;
 
 	private boolean hocr = false;
@@ -43,9 +45,12 @@ public class TessService {
 
 	private boolean applyThreshold = false;
 
+	private String language;
+
 	public TessService(final Path path) {
 		super();
 		this.path = path;
+		this.language = LANGUAGE_POR;
 	}
 
 	public TessService showForm(final boolean showForm) {
@@ -95,6 +100,16 @@ public class TessService {
 		return this;
 	}
 
+	public TessService language(final String language) {
+		this.language = language;
+		return this;
+	}
+
+	public TessService languageEng() {
+		this.language = LANGUAGE_ENG;
+		return this;
+	}
+
 	public String doOcr() throws Exception {
 		final File imageFile = path.toFile();
 
@@ -131,11 +146,12 @@ public class TessService {
 
 		final Tesseract tess = new Tesseract();
 		tess.setDatapath("src/main/resources");
-		tess.setLanguage(LANGUAGE_POR);
+		tess.setLanguage(language);
 
 		if (hocr) {
 			tess.setTessVariable("tessedit_create_hocr", "1");
 			tess.setTessVariable("hocr_font_info", "0");
+
 			return tess.doOCR(corrigida);
 		} else {
 
