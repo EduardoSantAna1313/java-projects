@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="dependency.injection.component.impl.DictionaryImpl">
+   <service>
+      <provide interface="dependency.injection.component.Dictionary"/>
+   </service>
+   <implementation class="dependency.injection.component.impl.DictionaryImpl"/>
+</scr:component>
