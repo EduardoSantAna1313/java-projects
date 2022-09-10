@@ -10,7 +10,6 @@ import software.amazon.awssdk.services.sts.StsClient;
 import software.amazon.awssdk.services.sts.auth.StsAssumeRoleWithSamlCredentialsProvider;
 import software.amazon.awssdk.services.sts.model.AssumeRoleWithSamlResponse;
 
-// https://github.com/eross/aws_examples/blob/be08aa9a26549c6a1d014bbf579934573cb06bfb/secretsmanager/secrets/src/main/java/com/evross/awssandbox/AssumeRoleDemo.java
 public class CredentialService {
 
     public AwsCredentials getAwsCredentials(String roleArn, String principalArn, String samlResponse, Region region) {
