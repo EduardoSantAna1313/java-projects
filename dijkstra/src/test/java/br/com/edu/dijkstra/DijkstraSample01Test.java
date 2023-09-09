@@ -1,5 +1,6 @@
 package br.com.edu.dijkstra;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -15,23 +16,29 @@ class DijkstraSample01Test {
 
 	@BeforeEach
 	void setup() throws IOException {
-		Graph graph = new Graph();
+		final Graph graph = new Graph();
 		graph.load(Path.of("src/main/resources/v1.txt"));
 		dijkstra = new Dijkstra(graph);
 	}
 
 	@Test
 	void testCost0To1() throws IOException {
-		var response = dijkstra.menorCaminho("INICIO", "A");
+		final var response = dijkstra.bestWay("INICIO", "A");
 		assertNotNull(response);
-		assertEquals(5d, response.peso());
+		assertEquals(5d, response.cost());
+		final var expected = new String[] { "INICIO", "B", "A" };
+
+		assertArrayEquals(expected, response.bestWay().toArray(new String[0]));
+
 	}
 
 	@Test
 	void testCost0To3() throws IOException {
-		var response = dijkstra.menorCaminho("INICIO", "FIM");
+		final var response = dijkstra.bestWay("INICIO", "FIM");
 		assertNotNull(response);
-		assertEquals(6d, response.peso());
+		assertEquals(6d, response.cost());
+		final var expected = new String[] { "INICIO", "B", "A", "FIM" };
+		assertArrayEquals(expected, response.bestWay().toArray(new String[0]));
 	}
 
 }

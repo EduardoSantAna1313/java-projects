@@ -21,15 +21,6 @@ public class Graph {
 		this.nodes = nodes;
 	}
 
-	public int count() {
-		return nodes.size();
-	}
-
-	@Override
-	public String toString() {
-		return "Grafo [nodes=" + nodes + "]";
-	}
-
 	public void save(final Path path) throws IOException {
 
 		final var gson = new GsonBuilder().setPrettyPrinting().create();
@@ -43,11 +34,16 @@ public class Graph {
 		final var json = Files.readString(path);
 
 		final var gson = new GsonBuilder().setPrettyPrinting().create();
-		final var r = gson.fromJson(json, Graph.class);
-		this.nodes = r.nodes;
+		final var returned = gson.fromJson(json, Graph.class);
+		this.nodes = returned.nodes;
 	}
 
 	public Map<String, Map<String, Double>> nodes() {
 		return nodes;
+	}
+
+	@Override
+	public String toString() {
+		return "Grafo [nodes=" + nodes + "]";
 	}
 }

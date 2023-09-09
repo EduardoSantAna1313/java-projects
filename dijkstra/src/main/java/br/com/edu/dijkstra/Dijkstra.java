@@ -1,7 +1,10 @@
 package br.com.edu.dijkstra;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,71 +14,78 @@ public class Dijkstra {
 
 	private final Map<String, String> parents = new HashMap<>();
 
-	private Graph graph;
+	private final Graph graph;
 
 	private Set<String> processed = new HashSet<>();
 
-	public Dijkstra(Graph graph) {
+	public Dijkstra(final Graph graph) {
 		super();
 		this.graph = graph;
 
 	}
 
-	public Response menorCaminho(final String inicio, final String fim) {
+	public Response bestWay(final String start, final String end) {
 
-		var nodes = graph.nodes();
+		final var nodes = graph.nodes();
 
-		// custo de tudo inicia com infinito
+		// start with all costs infinite
 		nodes.keySet().forEach(key -> {
-			if (!key.equals(inicio)) {
+			if (!key.equals(start)) {
 				costs.put(key, Double.POSITIVE_INFINITY);
 			}
 		});
 
 		nodes.keySet().forEach(key -> {
-			if (!key.equals(inicio)) {
-				parents.put(key, inicio);
+			if (!key.equals(start)) {
+				parents.put(key, start);
 			}
 		});
 
-		costs.putAll(nodes.get(inicio));
+		costs.putAll(nodes.get(start));
 
-		var noAtual = vizinhoMenorCusto();
+		var node = neighborLowestCost();
 
-		while (noAtual != null) {
-			for (final var vizinho : nodes.get(noAtual).keySet()) {
-				var custoVizinho = costs.get(vizinho); // 6
+		while (node != null) {
+			for (final var neighbor : nodes.get(node).keySet()) {
+				final var neighborCost = costs.get(neighbor);
 
-				var custoNoAtual = costs.getOrDefault(noAtual, Double.POSITIVE_INFINITY); // 2
-				double valorTotal;
-				if (custoNoAtual == Double.POSITIVE_INFINITY) {
-					valorTotal = nodes.get(noAtual).get(vizinho);
+				final var nodeCost = costs.getOrDefault(node, Double.POSITIVE_INFINITY);
+				double totalValue;
+				if (nodeCost == Double.POSITIVE_INFINITY) {
+					totalValue = nodes.get(node).get(neighbor);
 				} else {
-					valorTotal = nodes.get(noAtual).get(vizinho) + custoNoAtual;
+					totalValue = nodes.get(node).get(neighbor) + nodeCost;
 				}
 
-				if (valorTotal < custoVizinho) {
-					costs.put(vizinho, valorTotal);
-					parents.put(vizinho, noAtual);
+				if (totalValue < neighborCost) {
+					costs.put(neighbor, totalValue);
+					parents.put(neighbor, node);
 				}
 			}
-			processed.add(noAtual);
-			noAtual = vizinhoMenorCusto();
+			processed.add(node);
+			node = neighborLowestCost();
 		}
 
-		System.out.println(costs);
-		System.out.println(parents);
+		final List<String> bestWay = new LinkedList<>();
 
-		return new Response(costs.get(fim), null);
+		node = end;
+		bestWay.add(node);
+		while (node != start) {
+			final var parent = parents.get(node);
+			node = parent;
+			bestWay.add(node);
+		}
+
+		Collections.reverse(bestWay);
+		return new Response(costs.get(end), bestWay);
 
 	}
 
-	private String vizinhoMenorCusto() {
+	private String neighborLowestCost() {
 		Double lowestCost = Double.POSITIVE_INFINITY;
 		String lowestCostNode = null;
-
-		for (Map.Entry<String, Double> node : costs.entrySet()) {
-			Double cost = node.getValue();
+		for (final var node : costs.entrySet()) {
+			final var cost = node.getValue();
 			if (cost < lowestCost && !processed.contains(node.getKey())) {
 				lowestCost = cost;
 				lowestCostNode = node.getKey();

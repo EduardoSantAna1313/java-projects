@@ -3,7 +3,7 @@ package br.com.edu.dijkstra;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class Main {
+public class MainDijkstra {
 
 	public static void main(String[] args) throws IOException {
 		test1();
@@ -15,7 +15,7 @@ public class Main {
 		graph.load(Path.of("src/main/resources/v1.txt"));
 
 		final var v2 = new Dijkstra(graph);
-		final var response = v2.menorCaminho("INICIO", "A");
+		final var response = v2.bestWay("INICIO", "A");
 
 		System.out.println(response);
 	}
@@ -25,7 +25,7 @@ public class Main {
 		graph.load(Path.of("src/main/resources/v1.txt"));
 
 		final var v2 = new Dijkstra(graph);
-		final var response = v2.menorCaminho("INICIO", "FIM");
+		final var response = v2.bestWay("INICIO", "FIM");
 
 		System.out.println(response);
 	}
