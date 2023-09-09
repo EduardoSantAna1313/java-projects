@@ -4,8 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,13 +15,9 @@ class DijkstraSample01Test {
 
 	@BeforeEach
 	void setup() throws IOException {
-		final Map<String, Map<String, Double>> grafo = new LinkedHashMap<>();
-		grafo.put("INICIO", Map.of("A", 6d, "B", 2d));
-		grafo.put("A", Map.of("FIM", 1d));
-		grafo.put("B", Map.of("A", 3d, "FIM", 5d));
-		grafo.put("FIM", Map.of());
-
-		dijkstra = new Dijkstra(grafo);
+		Graph graph = new Graph();
+		graph.load(Path.of("src/main/resources/v1.txt"));
+		dijkstra = new Dijkstra(graph);
 	}
 
 	@Test
