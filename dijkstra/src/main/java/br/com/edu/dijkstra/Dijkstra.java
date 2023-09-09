@@ -1,85 +1,121 @@
 package br.com.edu.dijkstra;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.Set;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
+public class Dijkstra {
 
-public class DijkstraV2 {
+	private final Map<String, Double> costs = new HashMap<>();
 
-	private final Map<String, Double> custos = new HashMap<>();
+	private final Map<String, String> parents = new HashMap<>();
 
-	private final Map<String, String> pais = new HashMap<>();
+	private Map<String, Map<String, Double>> graph;
 
-	private Map<String, Map<String, Double>> grafo;
+	private Set<String> processed = new HashSet<>();
 
-	public DijkstraV2(final Map<String, Map<String, Double>> grafo) {
+	public Dijkstra(final Map<String, Map<String, Double>> grafo) {
 		super();
-		this.grafo = grafo;
+		this.graph = grafo;
+
 	}
 
 	public Response menorCaminho(final String inicio, final String fim) {
 
-		var noAtual = menorCusto(grafo.get(inicio));
-		System.out.println("Noatual =  " + noAtual);
-
-		for (var entry : grafo.entrySet()) {
-			System.out.println(entry.getKey());
-			var arestas = grafo.getOrDefault(entry.getKey(), null);
-
-			var menorCusto = menorCusto(arestas);
-			if (menorCusto == null) {
-				continue;
+		// custo de tudo inicia com infinito
+		graph.keySet().forEach(key -> {
+			if (!key.equals(inicio)) {
+				costs.put(key, Double.POSITIVE_INFINITY);
 			}
+		});
 
-			System.out.println("Menor custo " + entry.getKey() + " é " + menorCusto);
-			var oldValue = custos.get(menorCusto);
-			var currentValue = arestas.get(menorCusto);
-			if (oldValue == null || currentValue < oldValue) {
-				var custoNode = custos.get(entry.getKey());
+		graph.keySet().forEach(key -> {
+			if (!key.equals(inicio)) {
+				parents.put(key, inicio);
+			}
+		});
 
-				if (custoNode != null) {
-					currentValue += custoNode;
+		costs.putAll(graph.get(inicio));
+
+		var noAtual = vizinhoMenorCusto();
+
+		while (noAtual != null) {
+			for (final var vizinho : graph.get(noAtual).keySet()) {
+				var custoVizinho = costs.get(vizinho); // 6
+
+				var custoNoAtual = costs.getOrDefault(noAtual, Double.POSITIVE_INFINITY); // 2
+				double valorTotal;
+				if (custoNoAtual == Double.POSITIVE_INFINITY) {
+					valorTotal = graph.get(noAtual).get(vizinho);
+				} else {
+					valorTotal = graph.get(noAtual).get(vizinho) + custoNoAtual;
 				}
 
-				pais.put(menorCusto, entry.getKey());
-				custos.put(menorCusto, currentValue);
+				if (valorTotal < custoVizinho) {
+					costs.put(vizinho, valorTotal);
+					parents.put(vizinho, noAtual);
+				}
 			}
-
+			processed.add(noAtual);
+			noAtual = vizinhoMenorCusto();
 		}
-		System.out.println("Custos: " + custos);
-		System.out.println(pais);
-		return null;
+
+		System.out.println(costs);
+		System.out.println(parents);
+
+		return new Response(costs.get(fim), null);
 
 	}
 
-	private String menorCusto(Map<String, Double> arestas) {
+	private String vizinhoMenorCusto() {
+		Double lowestCost = Double.POSITIVE_INFINITY;
+		String lowestCostNode = null;
 
-		String key = null;
-		Double menor = Double.MAX_VALUE;
-		for (var e : arestas.entrySet()) {
-			if (e.getValue() < menor) {
-				menor = e.getValue();
-				key = e.getKey();
+		for (Map.Entry<String, Double> node : costs.entrySet()) {
+			Double cost = node.getValue();
+			if (cost < lowestCost && !processed.contains(node.getKey())) {
+				lowestCost = cost;
+				lowestCostNode = node.getKey();
 			}
 		}
 
-		return key;
+		return lowestCostNode;
 	}
 
 	public static void main(String[] args) {
+		test1();
+		test2();
+
+	}
+
+	private static void test1() {
 		final Map<String, Map<String, Double>> grafo = new LinkedHashMap<>();
 		grafo.put("INICIO", Map.of("A", 6d, "B", 2d));
 		grafo.put("A", Map.of("FIM", 1d));
 		grafo.put("B", Map.of("A", 3d, "FIM", 5d));
 		grafo.put("FIM", Map.of());
 
-		final var v2 = new DijkstraV2(grafo);
+		final var v2 = new Dijkstra(grafo);
 		final var response = v2.menorCaminho("INICIO", "FIM");
 
 		System.out.println(response);
-
 	}
+
+	private static void test2() {
+		final Map<String, Map<String, Double>> grafo = new LinkedHashMap<>();
+		grafo.put("INICIO", Map.of("A", 10d));
+		grafo.put("A", Map.of("B", 20d));
+		grafo.put("B", Map.of("C", 1d, "FIM", 30d));
+		grafo.put("C", Map.of("A", 1d));
+		grafo.put("D", Map.of("FIM", 1d));
+		grafo.put("FIM", Map.of());
+
+		final var v2 = new Dijkstra(grafo);
+		final var response = v2.menorCaminho("INICIO", "FIM");
+
+		System.out.println(response);
+	}
+
 }

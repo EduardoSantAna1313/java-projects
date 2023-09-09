@@ -1,15 +1,21 @@
 package br.com.edu.dijkstra;
 
-import java.io.IOException;
-import java.nio.file.Path;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
-		final var grafo = new Grafo(Path.of("src/test/resources/sample02.txt"));
 
-		final var dijkstra = new Dijkstra(grafo);
-		final var result = dijkstra.menorCaminho(0, 5);
+	public static void main(String[] args) {
+		final Map<String, Map<String, Double>> grafo = new LinkedHashMap<>();
+		grafo.put("INICIO", Map.of("A", 6d, "B", 2d));
+		grafo.put("A", Map.of("FIM", 1d));
+		grafo.put("B", Map.of("A", 3d, "FIM", 5d));
+		grafo.put("FIM", Map.of());
 
-		System.out.println(result);
+		final var v2 = new Dijkstra(grafo);
+		final var response = v2.menorCaminho("INICIO", "FIM");
+
+		System.out.println(response);
+
 	}
 }
