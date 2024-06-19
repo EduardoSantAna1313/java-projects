@@ -1,0 +1,15 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: app.test.containers
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/api
+    username: api
+    password: api
+
+flyway:
+  user: api
+  password: api
