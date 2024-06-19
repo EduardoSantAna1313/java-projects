@@ -1,4 +1,4 @@
-package br.com.edu.app.test.containers.infraestructure.rest
+package br.com.edu.app.test.containers.infraestructure.rest.handler
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice

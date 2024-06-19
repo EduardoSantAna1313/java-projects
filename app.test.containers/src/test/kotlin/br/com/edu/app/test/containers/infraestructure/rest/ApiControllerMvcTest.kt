@@ -39,7 +39,11 @@ class ApiControllerMvcTest {
 	@Test
 	fun `should return status 200`() {
 
-		for (i in 1..100) {
+		val maxRecords = 100
+
+		val pageSize = 10
+
+		for (i in 1..maxRecords) {
 			dao.create(Api(
 				name = "api $i",
 				description = "Description $i",
@@ -48,14 +52,14 @@ class ApiControllerMvcTest {
 			))
 		}
 
-		mockMvc.perform(get("/apis?page=0&limit=10"))
+		mockMvc.perform(get("/apis?page=0&limit=$pageSize"))
 			.andDo{ println("""
 					response.status: ${it.response.status}
 				""".trimIndent())
 			}
 			.andExpect (status().isOk)
-			.andExpect(jsonPath("$.page.size").value("10"))
-			.andExpect(jsonPath("$.page.totalElements").value("100"))
+			.andExpect(jsonPath("$.page.size").value(pageSize))
+			.andExpect(jsonPath("$.page.totalElements").value(maxRecords))
 	}
 
 }
