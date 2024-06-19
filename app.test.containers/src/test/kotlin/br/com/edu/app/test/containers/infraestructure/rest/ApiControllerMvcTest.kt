@@ -44,12 +44,14 @@ class ApiControllerMvcTest {
 		val pageSize = 10
 
 		for (i in 1..maxRecords) {
-			dao.create(Api(
+			val api = Api(
 				name = "api $i",
 				description = "Description $i",
 				status = ApiStatus.CREATED,
 				createdBy = "test user"
-			))
+			)
+			api.addParameter("title", "Title api $i")
+			dao.create(api)
 		}
 
 		mockMvc.perform(get("/apis?page=0&limit=$pageSize"))

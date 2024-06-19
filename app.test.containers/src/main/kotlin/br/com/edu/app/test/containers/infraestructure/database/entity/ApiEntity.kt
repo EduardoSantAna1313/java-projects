@@ -3,10 +3,12 @@ package br.com.edu.app.test.containers.infraestructure.database.entity
 import br.com.edu.app.test.containers.domain.Api
 import br.com.edu.app.test.containers.domain.ApiStatus
 import jakarta.persistence.*
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import java.time.LocalDateTime
 import java.util.*
 
-@Entity
+@Entity(name = "api")
 @Table(name = "API")
 class ApiEntity (
 
@@ -34,7 +36,12 @@ class ApiEntity (
     val updated: LocalDateTime,
 
     @Column(name = "UPDATED_BY")
-    val updatedBy: String
+    val updatedBy: String,
+
+    @JoinColumn(name = "api_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true, fetch = FetchType.LAZY)
+    val parameters: Set<ApiParameterEntity>
 
 ) {
 
@@ -46,7 +53,8 @@ class ApiEntity (
         createdBy = createdBy,
         updatedBy = updatedBy,
         created = created,
-        updated = updated
+        updated = updated,
+        parameters = parameters.map { it.toModel() }.toMutableSet()
     )
 
     companion object {
@@ -58,7 +66,9 @@ class ApiEntity (
             created = api.created,
             createdBy = api.createdBy,
             updated = api.updated,
-            updatedBy = api.updatedBy
+            updatedBy = api.updatedBy,
+            parameters = api.parameters.map { ApiParameterEntity.fromModel(it) }.toSet()
         )
+
     }
 }
